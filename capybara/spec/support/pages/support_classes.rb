@@ -29,8 +29,8 @@ end
 class Voicemail < SitePrism::Page
 	include Helper
 	set_url "/vmail_main.php"
+	
 	elements :touch_voicemail, "table#vmail_table.tablesorter tbody tr.alternateRow2 td a img"
-
 
 	def create_voicemail
 		click_link("Create a new Voice Mail Box")
@@ -72,5 +72,31 @@ class Voicemail < SitePrism::Page
 	def vm_select_language
 		select "Spanish", from: "ref_language_id"
 	end
-
 end
+
+class CallExtension < SitePrism::Page
+	set_url "/call-extension"
+
+	element :add_campaign, "#CampaignToolbar-add"
+	element :campaign_card, ""
+	element :campaign_search, :xpath, "/html/body/div[1]/div[5]/div/div[2]/div[1]/div/div[1]/input"
+	element :account_in_dropdown, :xpath, "/html/body/div[3]/div[2]/div[1]/select/option[2]"
+	element :account_dropdown, "select#select-account.js-select-account"
+	element :campaign_in_dropdown, :xpath, "/html/body/div[3]/div[2]/div[2]/select/option[2]"
+	element :add_campaign_dropdown, "select#select-campaign.js-select-campaign"
+	element :save_campaign, "span#modal-save.btn"
+
+	def enable_call_only
+		choose("call-only-flag-on")
+	end
+
+	def select_account_dropdown
+		adwords_account = find(:xpath, "/html/body/div[3]/div[2]/div[1]/select/option[2]").text
+		select adwords_account, :from => "select-account"
+	end
+
+	def select_campaign_dropdown
+		adwords_campaign = find(:xpath, "/html/body/div[3]/div[2]/div[2]/select/option[2]").text
+		select adwords_campaign, :from => "select-campaign"
+	end
+end	

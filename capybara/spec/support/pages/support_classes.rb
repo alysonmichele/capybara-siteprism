@@ -7,6 +7,10 @@ module Helper
 	def save
 		click_button("Save")
 	end
+
+	def dismiss_alert
+		page.driver.browser.switch_to.alert.accept
+	end
 end
 
 class Login < SitePrism::Page
@@ -25,6 +29,8 @@ end
 class Voicemail < SitePrism::Page
 	include Helper
 	set_url "/vmail_main.php"
+	elements :touch_voicemail, "table#vmail_table.tablesorter tbody tr.alternateRow2 td a img"
+
 
 	def create_voicemail
 		click_link("Create a new Voice Mail Box")
@@ -66,4 +72,5 @@ class Voicemail < SitePrism::Page
 	def vm_select_language
 		select "Spanish", from: "ref_language_id"
 	end
+
 end

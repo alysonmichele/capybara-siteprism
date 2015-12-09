@@ -20,7 +20,9 @@ describe "Create A New VM" do
 		@vm.vm_email_address("#{$DT_EMAIL_ADDRESS}")
 		@vm.vm_cycle_transcriptions
 		@vm.vm_select_gender
-		@vm.vm_select_gender
-		@vm.vm_save
+		@vm.vm_select_language
+
+		@vm.save
+
 	end
 end

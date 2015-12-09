@@ -3,6 +3,12 @@ require 'capybara'
 require 'capybara/rspec'
 require 'site_prism'
 
+module Helper
+	def save
+		click_button("Save")
+	end
+end
+
 class Login < SitePrism::Page
 	set_url "/login.php"
 
@@ -17,6 +23,7 @@ class Login < SitePrism::Page
 end
 
 class Voicemail < SitePrism::Page
+	include Helper
 	set_url "/vmail_main.php"
 
 	def create_voicemail
@@ -58,9 +65,5 @@ class Voicemail < SitePrism::Page
 
 	def vm_select_language
 		select "Spanish", from: "ref_language_id"
-	end
-
-	def vm_save
-		click_button("Save")
 	end
 end

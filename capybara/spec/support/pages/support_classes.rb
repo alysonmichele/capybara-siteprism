@@ -181,6 +181,7 @@ class CallExtension < SitePrism::Page
 	element :submit_search, :xpath, "/html/body/div[3]/div[3]/div/div/div/div[3]/div/div/div[4]/input"
 	element :adgroup_call_count, "div.campaign-adgroup-list div.adgroup-list-container div.adgroups-container.js-adgroups-container div.adgroup.js-adgroup div div.adgroup-display div.adgroup-body div.adgroup-stats div.adgroup-calls div.adgroup-stats-title"
 	element :read_text_prompt, "prompt"
+	element :adgroup_id, "div.adgroup-display div.adgroup-title.adgroup-type-color-configured span.adgroup-id"
 
 	def enable_call_only
 		choose("call-only-flag-on")
@@ -206,6 +207,15 @@ class CallExtension < SitePrism::Page
 	def set_state_and_area_code(state, area_code)
 		find(:xpath, "/html/body/div[3]/div[3]/div/div/div/div[3]/div/div/div[4]/select[1]").find("option[value='#{state}']").select_option
 		find(:xpath, "/html/body/div[3]/div[3]/div/div/div/div[3]/div/div/div[4]/select[2]").find("option[value='#{area_code}']").select_option
+	end
+
+	def unconfigure_adgroup_hover_click
+		find(:xpath, "/html/body/div[1]/div[5]/div/div[2]/div[2]/div/div[3]/div/div[4]/div/div/div").hover
+		find("html body div.div_main_wide div.bigcontentbox div#app-main div#app-content div#call-extension-edit-campaign.js-call-extension-edit-campaign div div.campaign-adgroup-list div.adgroup-list-container div.adgroups-container.js-adgroups-container div.adgroup.js-adgroup div div.adgroup-display div.adgroup-title.adgroup-type-color-configured span.adgroup-unconfigure-btn.js-adgroup-unconfigure-btn").click
+	end
+
+	def unconfigure_adgroup
+		find(:xpath, "/html/body/div[1]/div[5]/div/div[2]/div[2]/div/div[3]/div/div[4]/div/div/div/div[2]/span[1]", wait: 5).click
 	end
 
 end	

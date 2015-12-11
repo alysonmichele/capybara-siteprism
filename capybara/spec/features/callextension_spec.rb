@@ -120,4 +120,24 @@ describe "Configure All AdGroups" do
 		@campaign.wait_for_adgroup_call_count
 	end
 end
+# describe "Unconfigure AdGroup" do
+# 	it "should unconfigure an adgroup" do
+# 		page.driver.browser.manage.window.maximize
+# 		@login = Login.new
+# 		@login.load
 
+# 		@login.login("#{$DT_PORTAL_USERNAME}", "#{$DT_PORTAL_PASSWORD}")
+
+# 		@campaign = CallExtension.new
+# 		@campaign.load
+
+# 		@campaign.campaign_card.click
+# 		@campaign.has_sync_message?
+
+# 		@campaign.wait_for_adgroup_id
+# 		@campaign.wait_for_adgroup_call_count
+# 		@campaign.unconfigure_adgroup_hover_click
+# 		@campaign.unconfigure_adgroup
+# 		@campaign.wait_for_configure_ad
+# 	end
+# end

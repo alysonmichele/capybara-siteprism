@@ -39,10 +39,7 @@ describe "Delete A FindMe list" do
 		@fm = FindMe.new
 		@fm.load
 
-
-		check = @fm.rows
 		button = @fm.delete[0]
-
 
 		button.click
 		page.driver.browser.switch_to.alert.accept

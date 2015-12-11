@@ -11,6 +11,95 @@ module Helper
 	def dismiss_alert
 		page.driver.browser.switch_to.alert.accept
 	end
+
+	def wizard_next_page
+		find(".js-next").click
+	end
+
+	def wizard_enable_pattern_match
+		choose("pattern-yes")
+	end
+
+	def wizard_enable_schedule_routing
+		choose("schedule-yes")
+	end
+
+	def wizard_expand_advanced_options
+		if page.has_text?("Advanced options (show)")
+			find('.js-show-advanced').click
+		end
+	end
+
+	def wizard_enable_reverse_lookup
+		choose("reverse-lookup-yes")
+	end
+
+	def wizard_enable_ring_for_caller
+		choose("play-ring-yes")
+	end
+
+	def wizard_cycle_recording_settings
+		select("Record after transfer", :from => "record-call")
+		select("Record up to transfer", :from => "record-call")
+		select("Record whole call", :from => "record-call")
+	end
+
+	def wizard_enable_phone_label(label)
+		choose("phone-label-yes")
+		find(".js-label-change-accept").click
+		fill_in("phone_label", :with => "#{label}")
+	end
+
+	def wizard_enable_phone_suffix(suffix)
+		fill_in("phone_suffix", :with => "#{suffix}")
+	end
+
+	def wizard_enable_lf_source
+		choose("source-name-yes")
+	end
+
+	def wizard_set_pattern
+		find(".js-add-pattern").click
+		find("div#patterns-panel.routing-panel.js-pattern-panel ul.active-patterns.js-active-patterns li.js-active-pattern.active").click
+	end
+
+	def wizard_set_schedule
+		within("#schedules-panel") do
+			select("Do Not Delete", :from => "schedule-choices")
+			select("No Schedule", :from => "schedule-choices")
+		end
+	end
+
+	def wizard_route_read_text(text)
+		fill_in "prompt", :with => "#{text}"
+	end
+
+	def wizard_route_IVR
+		select("IVR", :from => "routing-type")
+		page.has_text?("Then, Route to an IVR")
+	end
+
+	def wizard_cycle_pcas
+		find(:xpath, "/html/body/div[3]/div[3]/div/div/div/div[1]/div/select").find("option[value='-1']").select_option
+		find(:xpath, "/html/body/div[3]/div[3]/div/div/div/div[1]/div/select").find("option[value='0']").select_option
+	end
+
+	def wizard_enable_google_analytics
+		choose("yes")
+		find(:xpath, "/html/body/div[3]/div[3]/div/div/div/div[2]/div[2]/select").find("option[value='#{$GOOGLE_ANALYTICS_PCA_ID}']").select_option
+	end
+
+	def wizard_set_analytics_values
+		fill_in "referrer", :with => "referrer"
+		fill_in "content", :with => "content"
+		fill_in "campaign", :with => "campaign"
+		fill_in "term", :with => "term"
+		fill_in "medium", :with => "medium"
+	end
+
+	def wizard_save
+		find(".js-save").click
+	end
 end
 
 class Login < SitePrism::Page
@@ -75,16 +164,23 @@ class Voicemail < SitePrism::Page
 end
 
 class CallExtension < SitePrism::Page
+	include Helper
 	set_url "/call-extension"
 
 	element :add_campaign, "#CampaignToolbar-add"
-	element :campaign_card, ""
+	element :campaign_card, :xpath, "/html/body/div[1]/div[5]/div/div[2]/div[1]/div/div[4]/div[3]/div/div[1]/div[1]"
 	element :campaign_search, :xpath, "/html/body/div[1]/div[5]/div/div[2]/div[1]/div/div[1]/input"
 	element :account_in_dropdown, :xpath, "/html/body/div[3]/div[2]/div[1]/select/option[2]"
 	element :account_dropdown, "select#select-account.js-select-account"
 	element :campaign_in_dropdown, :xpath, "/html/body/div[3]/div[2]/div[2]/select/option[2]"
 	element :add_campaign_dropdown, "select#select-campaign.js-select-campaign"
 	element :save_campaign, "span#modal-save.btn"
+	element :sync_message, "span.sync-message.js-sync-message"
+	element :configure_ad, "span.adgroup-routing-summary-label.unconfigured.js-adgroup-routing-summary-label"
+	element :configure_ads, "div.edit-adgroups-btn.js-edit-adgroups-btn"
+	element :submit_search, :xpath, "/html/body/div[3]/div[3]/div/div/div/div[3]/div/div/div[4]/input"
+	element :adgroup_call_count, "div.campaign-adgroup-list div.adgroup-list-container div.adgroups-container.js-adgroups-container div.adgroup.js-adgroup div div.adgroup-display div.adgroup-body div.adgroup-stats div.adgroup-calls div.adgroup-stats-title"
+	element :read_text_prompt, "prompt"
 
 	def enable_call_only
 		choose("call-only-flag-on")
@@ -99,6 +195,19 @@ class CallExtension < SitePrism::Page
 		adwords_campaign = find(:xpath, "/html/body/div[3]/div[2]/div[2]/select/option[2]").text
 		select adwords_campaign, :from => "select-campaign"
 	end
+
+	def cycle_radio_buttons
+		choose("number-type-canadian")
+		choose("number-type-true800")
+		choose("number-type-tollfree")
+		choose("number-type-local")
+	end
+
+	def set_state_and_area_code(state, area_code)
+		find(:xpath, "/html/body/div[3]/div[3]/div/div/div/div[3]/div/div/div[4]/select[1]").find("option[value='#{state}']").select_option
+		find(:xpath, "/html/body/div[3]/div[3]/div/div/div/div[3]/div/div/div[4]/select[2]").find("option[value='#{area_code}']").select_option
+	end
+
 end	
 
 class FindMe < SitePrism::Page

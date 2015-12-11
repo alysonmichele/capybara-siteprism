@@ -9,6 +9,7 @@ require 'site_prism'
 require_relative 'support/pages/support_classes.rb'
 
 Capybara.default_driver = :selenium
+Capybara.default_max_wait_time = 20
 
 RSpec.configure do |config|
 

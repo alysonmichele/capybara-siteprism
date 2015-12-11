@@ -26,10 +26,8 @@ describe "Create A New FindMe list" do
 		@fm.fm_hold_music
 
 		@fm.save
-
 	end
 end
-
 describe "Delete A FindMe list" do
 	it "should log in and delete a find me list" do
 		page.driver.browser.manage.window.maximize
@@ -42,12 +40,11 @@ describe "Delete A FindMe list" do
 		@fm.load
 
 
-		check=@fm.rows
-		button=@fm.delete[0]
+		check = @fm.rows
+		button = @fm.delete[0]
 
 
 		button.click
 		page.driver.browser.switch_to.alert.accept
-
 	end
 end

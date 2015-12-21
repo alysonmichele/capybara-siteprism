@@ -39,7 +39,10 @@ describe "Delete A FindMe list" do
 		@fm = FindMe.new
 		@fm.load
 
-		button = @fm.delete[0]
+
+		name = @fm.table[0]
+		expect(name.text).to eq('Do Not Delete (555) 555-5555 1 No')
+		button=@fm.delete[0]
 
 		button.click
 		page.driver.browser.switch_to.alert.accept

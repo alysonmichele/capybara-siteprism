@@ -23,6 +23,7 @@ describe "Add Call Extension Campaign" do
 		@campaign.save_campaign.click
 
 		@campaign.has_campaign_search?
+		page.has_css?("html body div.div_main_wide div.bigcontentbox div#app-main div#app-content div#call-extension-dashboard.js-call-extension-dashboard div div#campaigns-container.js-campaigns div div.campaign div.campaign-title div.campaign-name.js-campaign-name.ellipsis")
 	end
 end
 describe "Configure Single AdGroup" do

@@ -6,7 +6,6 @@ require 'capybara'
 require 'capybara/rspec'
 require 'site_prism'
 
-#require_relative 'support/pages/support_classes.rb'
 require_relative 'support/pages/all_page_objects.rb'
 
 Capybara.default_driver = :selenium
